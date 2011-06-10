@@ -1,3 +1,49 @@
+The goal of this prototype was to get the Max Mind GeoIP data into MongoDB and compare how fast it could be queried via Node.js. I didn't get around to the Node part initially, instead focusing on loading the MongoDB data and figuring out an efficient way to index the collections for quick querying. 
+
+> use geoip
+switched to db geoip
+> show collections
+blocks
+locations
+system.indexes
+
+> db.system.indexes.find()
+{ "name" : "_id_", "ns" : "geoip.locations", "key" : { "_id" : 1 } }
+{ "_id" : ObjectId("4c768c817b74345d5cfaf3f9"), "ns" : "geoip.locations", "key" : { "locId" : 1 }, "name" : "locId_1" }
+{ "name" : "_id_", "ns" : "geoip.blocks", "key" : { "_id" : 1 } }
+{ "_id" : ObjectId("4c769c4b091b732b6cbfd883"), "ns" : "geoip.blocks", "key" : { "s" : 1, "e" : 1 }, "name" : "s_1_e_1" }
+{ "_id" : ObjectId("4c769cd6091b732b6cbfd885"), "ns" : "geoip.blocks", "key" : { "s" : 1, "e" : -1 }, "name" : "s_1_e_-1" }
+{ "_id" : ObjectId("4c76a111091b732b6cbfd886"), "ns" : "geoip.blocks", "key" : { "e" : 1 }, "name" : "e_1" }
+{ "_id" : ObjectId("4c76b2c8091b732b6cbfd887"), "ns" : "geoip.blocks", "key" : { "locId" : 1 }, "name" : "locId_1" }
+> 
+
+I loaded blocks and locations from a CSV dump of GeoLiteCity data. Here is an example:
+
+blocks.csv
+s,e,locId
+16777216,17301503,17
+17367040,17432575,153
+17435136,17435391,17
+17498112,17563647,119
+17563648,17825791,49
+17825792,18087935,119
+18153472,18219007,111
+18219008,18350079,103
+18350080,18874367,49
+
+location.csv
+locId,country,region,city,postalCode,latitude,longitude,metroCode,areaCode
+1,"O1","","","",0.0000,0.0000,,
+2,"AP","","","",35.0000,105.0000,,
+3,"EU","","","",47.0000,8.0000,,
+4,"AD","","","",42.5000,1.5000,,
+5,"AE","","","",24.0000,54.0000,,
+6,"AF","","","",33.0000,65.0000,,
+7,"AG","","","",17.0500,-61.8000,,
+8,"AI","","","",18.2500,-63.1667,,
+9,"AL","","","",41.0000,20.0000,,
+
+
 
 Here's an example of querying on an IP in Mongo
 
