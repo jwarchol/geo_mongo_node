@@ -1,0 +1,10 @@
+
+Here's an example of querying on an IP in Mongo
+
+> db.blocks.find( { s : { $lte : ip2long("80.27.101.109")}}).sort({s:-1}).limit(1)
+{ "_id" : ObjectId("4c7693aa9e99ca785cb2e263"), "s" : NumberLong( 1.34397e+09 ), "e" : NumberLong( 1.34405e+09 ), "locId" : 14359 }
+
+And here is looking up that Location
+> db.locations.find({locId: 14359 })                                              
+{ "_id" : ObjectId("4c768bc19e99ca785c5d588d"), "locId" : 14359, "country" : "ES", "region" : 29, "city" : "Madrid", "postalCode" : "", "latitude" : 40.4, "longitude" : -3.6833, "metroCode" : "" }
+
